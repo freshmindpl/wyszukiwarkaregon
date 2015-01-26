@@ -10,7 +10,7 @@ Composer
 ```json
     {
         "require": {
-            "freshmindpl/wyszukiwarkaregon": "@dev-master"
+            "freshmindpl/wyszukiwarkaregon": "dev-master"
         }
     }
 ```
