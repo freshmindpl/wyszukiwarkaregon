@@ -1,0 +1,25 @@
+{
+    "name": "freshmindpl/wyszukiwarkaregon",
+    "description": "Baza Internetowa REGON API",
+    "keywords": ["GUS","REGON","NIP","CEIDG"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paweł Krzaczkowski",
+            "email": "pawel@freshmind.pl"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "guzzlehttp/guzzle": "~5.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "WyszukiwarkaRegon\\": "src/"
+        }
+    }
+}
