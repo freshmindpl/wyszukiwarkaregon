@@ -2,6 +2,7 @@
     "name": "freshmindpl/wyszukiwarkaregon",
     "description": "Baza Internetowa REGON API",
     "keywords": ["GUS","REGON","NIP","CEIDG"],
+    "homepage": "https://wyszukiwarkaregon.stat.gov.pl/appBIR/index.aspx",
     "type": "library",
     "license": "MIT",
     "authors": [
