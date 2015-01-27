@@ -1,6 +1,6 @@
 {
     "name": "freshmindpl/wyszukiwarkaregon",
-    "description": "Baza Internetowa REGON API",
+    "description": "BPolish REGON Internet Database",
     "keywords": ["GUS","REGON","NIP","CEIDG"],
     "homepage": "https://wyszukiwarkaregon.stat.gov.pl/appBIR/index.aspx",
     "type": "library",
@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "WyszukiwarkaRegon\\": "src/"
+            "WyszukiwarkaRegon\\": "src/WyszukiwarkaRegon"
         }
     }
 }

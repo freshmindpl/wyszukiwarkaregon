@@ -80,6 +80,7 @@ class Service
      * Get captcha image
      *
      * @param string $sid - session id returned by Zaloguj() method
+     * @return bool
      */
     public function PobierzCaptcha($sid)
     {
@@ -138,6 +139,7 @@ class Service
      * @param array $settings - search params array('Nip' => null, 'Regon' => null, 'Krs' => 'null'}
      * @param bool $extended - get extended information
      * @return array
+     * @throws \Exception
      */
     public function daneSzukaj($sid, $settings, $extended = false)
     {
