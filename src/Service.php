@@ -247,4 +247,33 @@ class Service
 
         return $result['d'];
     }
+
+    /**
+     * @param string $sid - session id returned by Zaloguj() method
+     * @return array
+     */
+    public function GetWojewodztwa($sid)
+    {
+        $headers = [
+            'sid' => $sid
+        ];
+
+        $result = $this->transport->call('GetWojewodztwa', 'post', [], $headers);
+
+        if (!isset($result['d'])) {
+            return null;
+        }
+
+        if (empty($result['d'])) {
+            return null;
+        }
+
+        $response = json_decode($result['d'], true);
+
+        if (!$response) {
+            return false;
+        }
+
+        return $response;
+    }
 }
