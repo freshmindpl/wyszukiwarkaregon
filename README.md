@@ -68,7 +68,7 @@ Querying for data (searching)
 $params = [
     'Nip' => 1234567890,
     'Regon' => null,
-    'Krs' => 'null'
+    'Krs' => null
 ];
 
 try {
