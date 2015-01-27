@@ -11,6 +11,19 @@ class Client
     public function __construct()
     {
 
+        $this->_initSession();
+    }
+
+    /**
+     *
+     */
+    private function _initSession()
+    {
+        var_dump(session_status());
+
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
     }
 
     /**
@@ -30,4 +43,6 @@ class Client
     {
 
     }
+
+
 }
