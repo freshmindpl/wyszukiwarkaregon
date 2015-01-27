@@ -16,21 +16,6 @@ class Client
     public function __construct()
     {
         $this->service = new Service();
-        $this->_initSession();
-    }
-
-    /**
-     * Check session support
-     */
-    private function _initSession()
-    {
-        if (session_status() == PHP_SESSION_DISABLED) {
-            throw new \Exception("Session support is disabled!");
-        }
-
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
     }
 
     /**
