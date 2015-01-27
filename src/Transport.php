@@ -95,8 +95,6 @@ class Transport
             $customHeaders[] = $header . ": " . $value;
         }
 
-        pre($customHeaders);
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->base_url . $method);
         curl_setopt($ch, CURLOPT_POST, 1);
