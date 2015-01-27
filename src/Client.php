@@ -6,20 +6,27 @@ namespace WyszukiwarkaRegon;
 class Client
 {
     /**
+     * @var Service
+     */
+    protected $service;
+
+    /**
      * Create new client
      */
     public function __construct()
     {
-
+        $this->service = new Service();
         $this->_initSession();
     }
 
     /**
-     *
+     * Check session support
      */
     private function _initSession()
     {
-        var_dump(session_status());
+        if (session_status() == PHP_SESSION_DISABLED) {
+            throw new \Exception("Session support is disabled!");
+        }
 
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
@@ -27,22 +34,10 @@ class Client
     }
 
     /**
-     * Get captcha image
+     * @return Service
      */
-    public function getCaptcha()
+    public function get()
     {
-
+        return $this->service;
     }
-
-    public function verifyCaptcha($params)
-    {
-
-    }
-
-    public function search($params)
-    {
-
-    }
-
-
 }
