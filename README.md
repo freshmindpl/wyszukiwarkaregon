@@ -14,3 +14,7 @@ Composer
         }
     }
 ```
+
+# License
+
+MIT license. See the LICENSE file for more details.
