@@ -26,7 +26,8 @@ use WyszukiwarkaRegon\Client as RegonClient;
 //Initiate client
 $client = new RegonClient();
 
-//Some methods may throw exceptions so it's safer to catch them and process them in Your application
+//Some methods may throw exceptions so it's safer to catch them
+//and process them in Your application
 try {
 
     //Get session key from API
@@ -44,16 +45,14 @@ try {
 You need to show the image to the user and ask him/her to solve it before You can query the database for data.
 
 ```php
-
 //User entered captcha solution
 $captcha_solution = '.....';
 
 try {
-    
+
     if(!$client->get()->SprawdzCaptcha($session_id, $captcha_solution) {
         echo "Error: the captcha solution is not valid";
     }
-
 } catch (\Exception $e) {
     echo "There was an error.\n";
 }
@@ -65,7 +64,6 @@ Querying for data (searching)
 ----------------------
 
 ```php
-
 //Search by NIP number
 $params = [
     'Nip' => 1234567890,
@@ -74,9 +72,8 @@ $params = [
 ];
 
 try {
-    
-    $data = $client->get()->daneSzukaj($session_id, $params);
 
+    $data = $client->get()->daneSzukaj($session_id, $params);
 } catch (\Exception $e) {
     echo "There was an error.\n";
 }
