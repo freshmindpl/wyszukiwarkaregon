@@ -1,6 +1,8 @@
 Polish REGON Internet Database
 ======================
 
+[![Dependency Status](https://www.versioneye.com/user/projects/54d4b6023ca08495310002dd/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54d4b6023ca08495310002dd)
+
 PHP client to query GUS (Główny Urząd Statystyczny) for information about company data based on NIP, Regon or KRS number.
 
 
