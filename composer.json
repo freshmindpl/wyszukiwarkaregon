@@ -1,6 +1,6 @@
 {
     "name": "freshmindpl/wyszukiwarkaregon",
-    "description": "BPolish REGON Internet Database",
+    "description": "Polish REGON Internet Database",
     "keywords": ["GUS","REGON","NIP","CEIDG"],
     "homepage": "https://wyszukiwarkaregon.stat.gov.pl/appBIR/index.aspx",
     "type": "library",
