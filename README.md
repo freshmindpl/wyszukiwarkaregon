@@ -34,10 +34,10 @@ try {
 
     //Get session key from API
     //This session key should be stored for later use - search query
-    $session_id = $client->get()->Zaloguj();
+    $session_id = $client->get()->zaloguj();
     
     //This method returns catpcha image base64 encoded
-    $captcha_image = $client->get()->PobierzCaptcha($session_id);
+    $captcha_image = $client->get()->pobierzCaptcha($session_id);
 
 } catch (\Exception $e) {
     echo "There was an error.\n";
@@ -52,7 +52,7 @@ $captcha_solution = '.....';
 
 try {
 
-    if(!$client->get()->SprawdzCaptcha($session_id, $captcha_solution) {
+    if(!$client->get()->sprawdzCaptcha($session_id, $captcha_solution) {
         echo "Error: the captcha solution is not valid";
     }
 } catch (\Exception $e) {
