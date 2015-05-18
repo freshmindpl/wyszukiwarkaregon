@@ -2,7 +2,6 @@
 
 namespace WyszukiwarkaRegon;
 
-
 class Service
 {
     /**
@@ -47,7 +46,7 @@ class Service
     /**
      * @return string
      */
-    public function Error()
+    public function error()
     {
         return $this->error;
     }
@@ -57,7 +56,7 @@ class Service
      *
      * @return bool|string
      */
-    public function Zaloguj()
+    public function zaloguj()
     {
         $params = [
             'pKluczUzytkownika' => $this->pKluczUzytkownika
@@ -82,7 +81,7 @@ class Service
      * @param string $sid - session id returned by Zaloguj() method
      * @return bool
      */
-    public function PobierzCaptcha($sid)
+    public function pobierzCaptcha($sid)
     {
         $headers = [
             'sid' => $sid
@@ -96,6 +95,7 @@ class Service
 
         if (empty($result['d'])) {
             $this->error = $this->DaneKomunikat($sid);
+
             return false;
         }
 
@@ -110,7 +110,7 @@ class Service
      * @param string $captcha - user entered captcha
      * @return bool
      */
-    public function SprawdzCaptcha($sid, $captcha)
+    public function sprawdzCaptcha($sid, $captcha)
     {
         $headers = [
             'sid' => $sid
@@ -132,7 +132,6 @@ class Service
 
         return $result['d'];
     }
-
 
     /**
      * @param string $sid - session id returned by Zaloguj() method
@@ -173,6 +172,7 @@ class Service
 
         if (empty($result['d'])) {
             $this->error = $this->DaneKomunikat($sid);
+
             return false;
         }
 
@@ -185,7 +185,6 @@ class Service
         $response = array_shift($response);
 
         if ($extended) {
-
             $eparams = [
                 'pNazwaRaportu' => null,
                 'pRegon' => str_pad($response['Regon'], 14, "0"),
@@ -214,12 +213,13 @@ class Service
 
             if (empty($result['d'])) {
                 $this->error = $this->DaneKomunikat($sid);
+
                 return false;
             }
 
             $data = json_decode($result['d'], true);
 
-            return array_shift($data);
+            return array_merge($response, array_shift($data));
 
         }
 
@@ -231,7 +231,7 @@ class Service
      * @param string $sid - session id returned by Zaloguj() method
      * @return null|string
      */
-    public function DaneKomunikat($sid)
+    public function daneKomunikat($sid)
     {
         $headers = [
             'sid' => $sid
@@ -254,7 +254,7 @@ class Service
      * @param string $sid - session id returned by Zaloguj() method
      * @return array
      */
-    public function GetWojewodztwa($sid)
+    public function getWojewodztwa($sid)
     {
         $headers = [
             'sid' => $sid

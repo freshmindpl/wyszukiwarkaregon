@@ -2,7 +2,6 @@
 
 namespace WyszukiwarkaRegon;
 
-
 class Transport
 {
     /**
