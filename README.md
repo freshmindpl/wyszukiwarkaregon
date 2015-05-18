@@ -11,7 +11,7 @@ Installation
 
 Install the library by adding it to your composer.json or running::
 
-    php composer.phar require freshmindpl/wyszukiwarkaregon:~1.0
+    php composer.phar require freshmindpl/wyszukiwarkaregon:~2.0
     
 Quick Example
 ======================
