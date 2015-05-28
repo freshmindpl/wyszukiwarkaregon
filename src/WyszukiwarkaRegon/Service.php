@@ -278,4 +278,32 @@ class Service
 
         return $response;
     }
+
+    /**
+     * @param string $sid - session id returned by Zaloguj() method
+     * @param string $param = parameter name eg. StanDanych
+     * @return mixed
+     */
+    public function getValue($sid, $param)
+    {
+        $headers = [
+            'sid' => $sid
+        ];
+
+        $params = [
+            'pNazwaParametru' => $param
+        ];
+
+        $result = $this->transport->call('GetValue', 'post', $params, $headers);
+
+        if (!isset($result['d'])) {
+            return null;
+        }
+
+        if (empty($result['d'])) {
+            return null;
+        }
+
+        return $result['d'];
+    }
 }
