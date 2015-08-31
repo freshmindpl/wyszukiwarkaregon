@@ -137,10 +137,11 @@ class Service
      * @param string $sid - session id returned by Zaloguj() method
      * @param array $settings - search params array('Nip' => null, 'Regon' => null, 'Krs' => 'null'}
      * @param bool $extended - get extended information
+     * @param bool $pkd - get pkd list as array, it's independent from getting extended information
      * @return array
      * @throws \Exception
      */
-    public function daneSzukaj($sid, $settings, $extended = false)
+    public function daneSzukaj($sid, $settings, $extended = false, $pkd = false)
     {
         $headers = [
             'sid' => $sid
@@ -218,9 +219,42 @@ class Service
             }
 
             $data = json_decode($result['d'], true);
+            $response = array_merge($response, array_shift($data));
+        }
+        if ($pkd) {
+            $eparams = [
+                'pNazwaRaportu' => null,
+                'pRegon' => str_pad($response['Regon'], 14, "0"),
+                'pSilosID' => 1
+            ];
 
-            return array_merge($response, array_shift($data));
+            switch ($response['Typ']) {
+                case 'F':
+                    $eparams['pNazwaRaportu'] = 'DaneRaportDzialalnosciFizycznejPubl';
+                    break;
 
+                case 'P':
+                    $eparams['pNazwaRaportu'] = 'DaneRaportDzialalnosciPrawnejPubl';
+                    break;
+
+                default:
+                    throw new \Exception("Unknown type!");
+            }
+            $result = $this->transport->call('DanePobierzPelnyRaport', 'post', $eparams, $headers);
+
+            if (!isset($result['d'])) {
+                return false;
+            }
+
+            if (empty($result['d'])) {
+                $this->error = $this->DaneKomunikat($sid);
+
+                return false;
+            }
+
+            $data = json_decode($result['d'], true);
+
+            $response = array_merge($response, ['ListaDzialalnosci' => $data]);
         }
 
         return $response;
