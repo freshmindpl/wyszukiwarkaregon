@@ -1,5 +1,5 @@
 {
-    "name": "freshmindpl/wyszukiwarkaregon",
+    "name": "woduda/wyszukiwarkaregon",
     "description": "Polish REGON Internet Database",
     "keywords": ["GUS","REGON","NIP","CEIDG"],
     "homepage": "https://wyszukiwarkaregon.stat.gov.pl/appBIR/index.aspx",
@@ -9,6 +9,10 @@
         {
             "name": "Paweł Krzaczkowski",
             "email": "pawel@freshmind.pl"
+        },
+        {
+            "name": "Wojciech Duda",
+            "email": "wduda@wduda.com"
         }
     ],
     "minimum-stability": "stable",
