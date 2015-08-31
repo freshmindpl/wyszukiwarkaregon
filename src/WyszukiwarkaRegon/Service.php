@@ -137,6 +137,7 @@ class Service
      * @param string $sid - session id returned by Zaloguj() method
      * @param array $settings - search params array('Nip' => null, 'Regon' => null, 'Krs' => 'null'}
      * @param bool $extended - get extended information
+     * @param bool $pkd - get pkd list as array, it's independent from getting extended information
      * @return array
      * @throws \Exception
      */
