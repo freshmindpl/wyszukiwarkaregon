@@ -221,8 +221,16 @@ class Service
             $response = array_merge($response, array_shift($data));
 
             if ($pkd) {
-                $eparams['pNazwaRaportu'] = str_replace('Raport', "RaportDzialalnosci", $eparams['pNazwaRaportu']);
-
+                switch ($response['Typ']) {
+                    case 'F':
+                        $eparams['pNazwaRaportu'] = 'DaneRaportDzialalnosciFizycznejPubl';
+                        break;
+                    case 'P':
+                        $eparams['pNazwaRaportu'] = 'DaneRaportDzialalnosciPrawnejPubl';
+                        break;
+                    default:
+                        throw new \Exception("Unknown type!");
+                }
                 $result = $this->transport->call('DanePobierzPelnyRaport', 'post', $eparams, $headers);
 
                 if (!isset($result['d'])) {
