@@ -140,7 +140,7 @@ class Service
      * @return array
      * @throws \Exception
      */
-    public function daneSzukaj($sid, $settings, $extended = false)
+    public function daneSzukaj($sid, $settings, $extended = false, $pkd = false)
     {
         $headers = [
             'sid' => $sid
@@ -218,8 +218,28 @@ class Service
             }
 
             $data = json_decode($result['d'], true);
+            $response = array_merge($response, array_shift($data));
 
-            return array_merge($response, array_shift($data));
+            if ($pkd) {
+                $eparams['pNazwaRaportu'] = str_replace('Raport', "RaportDzialalnosci", $eparams['pNazwaRaportu']);
+
+                $result = $this->transport->call('DanePobierzPelnyRaport', 'post', $eparams, $headers);
+
+                if (!isset($result['d'])) {
+                    return false;
+                }
+
+                if (empty($result['d'])) {
+                    $this->error = $this->DaneKomunikat($sid);
+
+                    return false;
+                }
+
+                $data = json_decode($result['d'], true);
+
+                $response = array_merge($response, ['ListaDzialalnosci' => $data]);
+            }
+            return $response;
 
         }
 
