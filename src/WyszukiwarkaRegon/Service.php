@@ -219,36 +219,41 @@ class Service
 
             $data = json_decode($result['d'], true);
             $response = array_merge($response, array_shift($data));
+        }
+        if ($pkd) {
+            $eparams = [
+                'pNazwaRaportu' => null,
+                'pRegon' => str_pad($response['Regon'], 14, "0"),
+                'pSilosID' => 1
+            ];
 
-            if ($pkd) {
-                switch ($response['Typ']) {
-                    case 'F':
-                        $eparams['pNazwaRaportu'] = 'DaneRaportDzialalnosciFizycznejPubl';
-                        break;
-                    case 'P':
-                        $eparams['pNazwaRaportu'] = 'DaneRaportDzialalnosciPrawnejPubl';
-                        break;
-                    default:
-                        throw new \Exception("Unknown type!");
-                }
-                $result = $this->transport->call('DanePobierzPelnyRaport', 'post', $eparams, $headers);
+            switch ($response['Typ']) {
+                case 'F':
+                    $eparams['pNazwaRaportu'] = 'DaneRaportDzialalnosciFizycznejPubl';
+                    break;
 
-                if (!isset($result['d'])) {
-                    return false;
-                }
+                case 'P':
+                    $eparams['pNazwaRaportu'] = 'DaneRaportDzialalnosciPrawnejPubl';
+                    break;
 
-                if (empty($result['d'])) {
-                    $this->error = $this->DaneKomunikat($sid);
-
-                    return false;
-                }
-
-                $data = json_decode($result['d'], true);
-
-                $response = array_merge($response, ['ListaDzialalnosci' => $data]);
+                default:
+                    throw new \Exception("Unknown type!");
             }
-            return $response;
+            $result = $this->transport->call('DanePobierzPelnyRaport', 'post', $eparams, $headers);
 
+            if (!isset($result['d'])) {
+                return false;
+            }
+
+            if (empty($result['d'])) {
+                $this->error = $this->DaneKomunikat($sid);
+
+                return false;
+            }
+
+            $data = json_decode($result['d'], true);
+
+            $response = array_merge($response, ['ListaDzialalnosci' => $data]);
         }
 
         return $response;
