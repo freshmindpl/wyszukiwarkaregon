@@ -193,7 +193,6 @@ class Service
             ];
 
             switch ($response['Typ']) {
-
                 case 'F':
                     $eparams['pNazwaRaportu'] = 'DaneRaportFizycznaPubl';
                     break;
