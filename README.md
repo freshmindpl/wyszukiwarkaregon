@@ -1,87 +1,55 @@
-Polish REGON Internet Database
-======================
+# Polish REGON Internet Database BIR1
 
-[![Dependency Status](https://www.versioneye.com/user/projects/54d4b6023ca08495310002dd/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54d4b6023ca08495310002dd)
+PHP bindings for the BIR1 (Baza Internetowa REGON 1) API (https://wyszukiwarkaregon.stat.gov.pl/appBIR/index.aspx).
 
-PHP client to query GUS (Główny Urząd Statystyczny) for information about company data based on NIP, Regon or KRS number.
+[API Documentation](https://goo.gl/zxBf2o)
 
+[![Latest Stable Version](https://poser.pugx.org/freshmindpl/wyszukiwarkaregon/v/stable)](https://packagist.org/packages/freshmindpl/wyszukiwarkaregon)
+[![Build Status](https://travis-ci.org/freshmindpl/wyszukiwarkaregon.svg?branch=master)](https://travis-ci.org/freshmindpl/wyszukiwarkaregon)
+[![Code Climate](https://codeclimate.com/github/freshmindpl/wyszukiwarkaregon/badges/gpa.svg)](https://codeclimate.com/github/freshmindpl/wyszukiwarkaregon)
+[![Test Coverage](https://codeclimate.com/github/freshmindpl/wyszukiwarkaregon/badges/coverage.svg)](https://codeclimate.com/github/freshmindpl/wyszukiwarkaregon/coverage)
 
-Installation
-======================
+## Installation
 
-Install the library by adding it to your composer.json or running::
+The API client can be installed via [Composer](https://github.com/composer/composer).
 
-    php composer.phar require freshmindpl/wyszukiwarkaregon:~2.0
-    
-Quick Example
-======================
+In your composer.json file:
 
-Get catpcha code for user to solve
-----------------------
+```js
+{
+    "require": {
+        "freshmindpl/wyszukiwarkaregon": "~3.0"
+    }
+}
+```
+
+Once the composer.json file is created you can run `composer install` for the initial package install and `composer update` to update to the latest version of the API client.
+
+## Basic Usage
+
+Remember to include the Composer autoloader in your application:
 
 ```php
 <?php
-require vendor/autoload.php
+require_once 'vendor/autoload.php';
 
-use WyszukiwarkaRegon\Client as RegonClient;
-
-//Initiate client
-$client = new RegonClient();
-
-//Some methods may throw exceptions so it's safer to catch them
-//and process them in Your application
-try {
-
-    //Get session key from API
-    //This session key should be stored for later use - search query
-    $session_id = $client->get()->zaloguj();
-    
-    //This method returns catpcha image base64 encoded
-    $captcha_image = $client->get()->pobierzCaptcha($session_id);
-
-} catch (\Exception $e) {
-    echo "There was an error.\n";
-}
+// Application code...
+?>
 ```
 
-You need to show the image to the user and ask him/her to solve it before You can query the database for data.
+Configure your access credentials when creating a client:
 
 ```php
-//User entered captcha solution
-$captcha_solution = '.....';
+<?php
+use WyszukiwarkaRegon\Client;
 
-try {
-
-    if(!$client->get()->sprawdzCaptcha($session_id, $captcha_solution) {
-        echo "Error: the captcha solution is not valid";
-    }
-} catch (\Exception $e) {
-    echo "There was an error.\n";
-}
+$client = new Client([
+   'key' => 'aaaabbbbccccdddd' //Optional key,
+   'session' => 'abcdefghijklmnopqrstuvwxyz' //Session id if already logged in
+]);
+?>
 ```
 
-After successful captcha validation You can start querying database for data.
+## License
 
-Querying for data (searching)
-----------------------
-
-```php
-//Search by NIP number
-$params = [
-    'Nip' => 1234567890,
-    'Regon' => null,
-    'Krs' => null
-];
-
-try {
-
-    $data = $client->get()->daneSzukaj($session_id, $params);
-} catch (\Exception $e) {
-    echo "There was an error.\n";
-}
-```
-
-License
-======================
-
-MIT license. See the LICENSE file for more details.
+MIT license. See the [LICENSE](LICENSE) file for more details.
