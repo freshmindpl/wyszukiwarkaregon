@@ -22,5 +22,10 @@
         "psr-4": {
             "WyszukiwarkaRegon\\": "src/WyszukiwarkaRegon"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "3.0.x-dev"
+        }
     }
 }
