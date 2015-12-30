@@ -34,11 +34,6 @@ class Service
     protected $transport;
 
     /**
-     * @var bool
-     */
-    protected $sandbox = false;
-
-    /**
      * @var string
      */
     protected $streamContext = null;
@@ -108,17 +103,12 @@ class Service
     }
 
     /**
-     * @param bool $flag
+     * Enable sandbox mode
+     *
      */
-    public function setSandbox($flag = true)
+    public function setSandbox()
     {
-        $this->sandbox = $flag;
-
-        if ($this->sandbox) {
-            $this->transport->__setLocation($this->urlSandbox);
-        } elseif (!$this->sandbox) {
-            $this->transport->__setLocation($this->url);
-        }
+        $this->transport->__setLocation($this->urlSandbox);
     }
 
     /**

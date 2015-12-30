@@ -69,12 +69,11 @@ class Client
     /**
      * Enable sanbox service
      *
-     * @param bool $flag
      * @return $this
      */
-    public function sandbox($flag = true)
+    public function sandbox()
     {
-        $this->service->setSandbox($flag);
+        $this->service->setSandbox();
 
         return $this;
     }

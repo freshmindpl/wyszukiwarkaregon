@@ -27,7 +27,7 @@ class ClientTest extends AbstractTest
     public function testClientSetSandbox()
     {
         $client = $this->createClient(new \stdClass());
-        $client = $client->sandbox(true)->sandbox(false);
+        $client = $client->sandbox();
         $this->assertSame(get_class($client), 'WyszukiwarkaRegon\\Client');
     }
     /**
