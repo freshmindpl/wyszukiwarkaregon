@@ -1,7 +1,7 @@
 {
     "name": "freshmindpl/wyszukiwarkaregon",
     "description": "Polish REGON Internet Database",
-    "keywords": ["GUS","REGON","NIP","CEIDG","api"],
+    "keywords": ["GUS","REGON","NIP","CEIDG","api","BIR1"],
     "homepage": "https://wyszukiwarkaregon.stat.gov.pl/appBIR/index.aspx",
     "type": "library",
     "license": "MIT",
