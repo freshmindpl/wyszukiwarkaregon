@@ -85,7 +85,6 @@ EOD;
         try {
             $client->search([]);
         } catch (SearchException $e) {
-
             $this->assertSame($e->getCode(), 1);
             $this->assertSame($e->getMessage(), 'error message');
         }
@@ -105,7 +104,6 @@ EOD;
         try {
             $client->search([]);
         } catch (SearchException $e) {
-
             $this->assertSame($e->getCode(), 7);
             $this->assertSame($e->getMessage(), '');
         }
