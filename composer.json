@@ -25,10 +25,5 @@
             "WyszukiwarkaRegon\\": "src/",
             "WyszukiwarkaRegon\\Tests\\": "src/tests/"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.0.x-dev"
-        }
     }
 }
