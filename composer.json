@@ -1,7 +1,7 @@
 {
     "name": "freshmindpl/wyszukiwarkaregon",
     "description": "Polish REGON Internet Database",
-    "keywords": ["GUS","REGON","NIP","CEIDG"],
+    "keywords": ["GUS","REGON","NIP","CEIDG","api"],
     "homepage": "https://wyszukiwarkaregon.stat.gov.pl/appBIR/index.aspx",
     "type": "library",
     "license": "MIT",
@@ -16,11 +16,13 @@
         "php": ">=5.4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.7"
+        "phpunit/phpunit": "~4.8",
+        "codeclimate/php-test-reporter": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "WyszukiwarkaRegon\\": "src/WyszukiwarkaRegon"
+            "WyszukiwarkaRegon\\": "src/",
+            "WyszukiwarkaRegon\\Tests\\": "src/tests/"
         }
     },
     "extra": {
