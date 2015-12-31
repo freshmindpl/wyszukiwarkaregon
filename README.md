@@ -127,6 +127,21 @@ if(!$response) {
 
 ```
 
+#### GetValue
+
+See [API Documentation](https://goo.gl/zxBf2o) for list of available params (section 2.5)
+```php
+<?php
+
+try {
+    $value = $client->getValue('StatusSesji');
+} catch (RegonException $e) {
+    echo "There was an error.\n";
+}
+
+?>
+```
+
 #### Search
 
 ```php
@@ -167,8 +182,117 @@ try {
 
 #### Reports
 
+See [API Documentation](https://goo.gl/zxBf2o) for list of available reports (section 2.6)
+```php
+<?php
+
+$regon = '1234567890';
+
+try {
+    $report = $client->report($regon, 'PublDaneRaportFizycznaOsoba'); 
+    
+} catch (SearchException $e) {
+    switch($e->getCode()) {
+        case GetValue::SEARCH_ERROR_CAPTCHA: //Captcha resolve needed
+            // Some code
+            break;
+        case GetValue::SEARCH_ERROR_INVALIDARGUMENT: //Wrong search params
+            // Some code
+            break;
+        case GetValue::SEARCH_ERROR_NOTFOUND: //Empty result - no data found matching search params
+            // Some code
+            break;
+        case GetValue::SEARCH_ERROR_NOTAUTHORIZED: //Not authorized for this raport
+            // Some code
+            break;
+        case GetValue::SEARCH_ERROR_SESSION: //Wrong session id or expired session
+            // Some code
+            break;
+    }
+} catch (RegonException $e) {
+    echo "There was an error.\n";
+}
+```
 
 ### Full example
+
+This is a working example on how to use GUS client to query for data
+
+```php
+<?php
+
+$client = new Client([
+    'key' => YOUR_API_KEY
+]);
+
+//Enable sandbox mode for development environment
+if (defined('DEVELOPMENT') && DEVELOPMENT) {
+    $client->sandbox();
+}
+
+//Check if we have saved session id
+$session_id = $memcache->get('gus_session_id');
+
+if (!$session_id) {
+    try {
+        $session_id = $client->login();
+    } catch (RegonException $e) {
+        echo "There was an error.\n";
+        exit;
+    }
+    
+    //Save session_id for later use
+    $memcache->save('gus_session_id', $session_id); 
+} else {
+
+    //Set current session
+    $client->setSession($session_id);
+}
+
+//Try to get data
+try {
+    
+    //Get basic data
+    $data = $client->search(['Nip' => '1234567890']);
+    
+    //Get full comapny report
+    switch($data[0]['Typ']) {
+        case 'P':
+        case 'LP':
+            $full = $client->report($data[0]['Regon'], 'PublDaneRaportPrawna');
+        break;
+    
+        case 'F':
+        case 'LF':
+            $full = $client->report($data[0]['Regon'], 'PublDaneRaportDzialalnoscFizycznejCeidg');
+        break;
+    }
+} catch (SearchException $e) {
+    switch($e->getCode()) {
+        case GetValue::SEARCH_ERROR_CAPTCHA: //Captcha resolve needed
+            // You need to get catpcha and show it to the user
+            break;
+        case GetValue::SEARCH_ERROR_INVALIDARGUMENT: //Wrong search params
+            // Invalid argument passed to search/report method
+            break;
+        case GetValue::SEARCH_ERROR_NOTFOUND: //Empty result - no data found matching search params
+            // No records where found
+            $data = null;
+            $full = null;
+            break;
+        case GetValue::SEARCH_ERROR_NOTAUTHORIZED: //Not authorized for this raport
+            // You are not authorized to generate this report
+            break;
+        case GetValue::SEARCH_ERROR_SESSION: //Wrong session id or expired session
+            // Your session has expired - You need to login again
+            break;
+    }
+} catch (RegonException $e) {
+    echo "There was an error.\n";
+    exit;
+}
+
+```
 
 ## License
 
