@@ -3,6 +3,7 @@
 namespace WyszukiwarkaRegon;
 
 use WyszukiwarkaRegon\Enum\GetValue;
+use WyszukiwarkaRegon\Exception\InvalidKeyException;
 use WyszukiwarkaRegon\Exception\RegonException;
 use WyszukiwarkaRegon\Exception\SearchException;
 
@@ -124,6 +125,11 @@ class Service
             $response = $this->transport->__soapCall('Zaloguj', [$params]);
         } catch (\SoapFault $e) {
             throw new RegonException($e->getMessage(), 0, $e);
+        }
+
+        if (empty($response->ZalogujResult)) {
+            //Invalid key
+            throw new InvalidKeyException('Invalid api key', 99);
         }
 
         $this->setSession($response->ZalogujResult);
