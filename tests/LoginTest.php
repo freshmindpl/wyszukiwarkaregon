@@ -39,4 +39,15 @@ class LoginTest extends AbstractTest
         $client = $this->createFault($sopaFault);
         $client->logout();
     }
+
+    /**
+     * @expectedException \WyszukiwarkaRegon\Exception\InvalidKeyException
+     */
+    public function testLoginInvalidKeyException()
+    {
+        $result = new \stdClass();
+        $result->ZalogujResult = '';
+        $client = $this->createClient($result);
+        $client->login();
+    }
 }
