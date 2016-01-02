@@ -285,10 +285,6 @@ class Service
      */
     private function normalizeResponse($response)
     {
-        #if (empty($response)) {
-        #    return $response;
-        #}
-
         $json = json_decode($response, true);
 
         if ($json !== null) {
@@ -296,14 +292,36 @@ class Service
         }
 
         //Load as XMl
-        $xml = @simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $xml = @simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
 
         if (!$xml) {
             return [];
         }
 
-        $array = json_decode(json_encode($xml), true);
+        $array = $this->xml2array($xml);
 
         return array_values($array);
+    }
+
+    /**
+     * Xml to array
+     *
+     * @param $xml
+     * @return array
+     */
+    private function xml2array($xml)
+    {
+        $arr = array();
+        foreach ($xml as $element) {
+            /** @var \SimpleXmlElement $element */
+            $tag = $element->getName();
+            $e = get_object_vars($element);
+            $arr[$tag] = trim($element);
+            if (!empty($e)) {
+                $arr[$tag] = $element instanceof \SimpleXMLElement ? $this->xml2array($element) : $e;
+            }
+        }
+
+        return $arr;
     }
 }
