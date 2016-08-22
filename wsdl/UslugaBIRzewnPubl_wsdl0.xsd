@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wsdl:definitions targetNamespace="http://CIS/BIR/PUBL/2014/07" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:wsa10="http://www.w3.org/2005/08/addressing"
+                  xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+                  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+                  xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+                  xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract"
+                  xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+                  xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
                   xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:tns="http://CIS/BIR/PUBL/2014/07"
-                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
     <wsdl:types>
         <xsd:schema targetNamespace="http://CIS/BIR/PUBL/2014/07/Imports">
-            <xsd:import schemaLocation="UslugaBIRzewnPubl_xsd0.xsd" namespace="http://CIS/BIR/2014/07"/>
-            <xsd:import schemaLocation="UslugaBIRzewnPubl_xsd1.xsd"
+            <xsd:import schemaLocation="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd0.xsd"
+                        namespace="http://CIS/BIR/2014/07"/>
+            <xsd:import schemaLocation="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd1.xsd"
                         namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
-            <xsd:import schemaLocation="UslugaBIRzewnPubl_xsd2.xsd" namespace="http://CIS/BIR/PUBL/2014/07"/>
-            <xsd:import schemaLocation="UslugaBIRzewnPubl_xsd3.xsd"
+            <xsd:import schemaLocation="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd2.xsd"
+                        namespace="http://CIS/BIR/PUBL/2014/07"/>
+            <xsd:import schemaLocation="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd3.xsd"
                         namespace="http://CIS/BIR/PUBL/2014/07/DataContract"/>
         </xsd:schema>
     </wsdl:types>

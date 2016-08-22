@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <xs:schema elementFormDefault="qualified" targetNamespace="http://CIS/BIR/PUBL/2014/07"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:import schemaLocation="UslugaBIRzewnPubl_xsd3.xsd"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://CIS/BIR/PUBL/2014/07">
+    <xs:import schemaLocation="https://Wyszukiwarkaregontest.stat.gov.pl/wsBIR/wsdl/UslugaBIRzewnPubl_xsd3.xsd"
                namespace="http://CIS/BIR/PUBL/2014/07/DataContract"/>
     <xs:element name="Zaloguj">
         <xs:complexType>

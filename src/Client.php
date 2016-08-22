@@ -11,8 +11,6 @@ namespace WyszukiwarkaRegon;
  * @method string getValue() getValue(string $key) get param value
  * @method array search() search(array $condition) search the database
  * @method array report() report(string $regon, string $name) get detailed report
- * @method string catpcha() captcha() get captcha image
- * @method boolean verify() verify(string $code) verify captcha code
  */
 class Client
 {

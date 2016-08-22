@@ -245,39 +245,6 @@ class Service
     }
 
     /**
-     * @return mixed
-     */
-    public function captcha()
-    {
-        try {
-            $response = $this->transport->__soapCall('PobierzCaptcha', []);
-        } catch (\SoapFault $e) {
-            throw new RegonException($e->getMessage(), 0, $e);
-        }
-
-        return $response->PobierzCaptchaResult;
-    }
-
-    /**
-     * @param string $code
-     * @return bool
-     */
-    public function verify($code)
-    {
-        $params = [
-            'pCaptcha' => (string)$code
-        ];
-
-        try {
-            $response = $this->transport->__soapCall('SprawdzCaptcha', [$params]);
-        } catch (\SoapFault $e) {
-            throw new RegonException($e->getMessage(), 0, $e);
-        }
-
-        return (bool)$response->SprawdzCaptchaResult;
-    }
-
-    /**
      * Normalize response
      *
      * @param $response

@@ -95,38 +95,6 @@ $client->logout();
 
 ```
 
-#### Captcha
-
-```php
-<?php
-// Login or set session_id if You have it
-
-// This method returns captcha image base64 encoded
-try {
-    $captcha_image = $client->captcha();
-} catch (RegonException $e) {
-    echo "There was an error.\n";
-}
-
-```
-
-```php
-<?php
-// User entered captcha solution
-$code = '.....';
-
-try {
-    $response = $client->verify($code);
-} catch (RegonException $e) {
-    echo "There was an error.\n";
-}
-
-if(!$response) {
-    echo "Wrong captcha code.\n";
-}
-
-```
-
 #### GetValue
 
 See [API Documentation](https://goo.gl/zxBf2o) for list of available params (section 2.5)
