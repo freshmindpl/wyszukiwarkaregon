@@ -2,8 +2,10 @@
 
 namespace WyszukiwarkaRegon\Tests;
 
+use stdClass;
 use WyszukiwarkaRegon\Client;
 use WyszukiwarkaRegon\Enum\GetValue;
+use WyszukiwarkaRegon\Exception\RegonException;
 use WyszukiwarkaRegon\Exception\SearchException;
 
 class ReportTest extends AbstractTest
@@ -12,11 +14,11 @@ class ReportTest extends AbstractTest
     {
         $data = array(
             array(
-                'Regon' => 1234567890
-            )
+                'Regon' => 1234567890,
+            ),
         );
 
-        $result = new \stdClass();
+        $result = new stdClass();
         $result->DanePobierzPelnyRaportResult = json_encode($data);
         $client = $this->createClient($result);
         $result = $client->report('123456', 'ReportName');
@@ -35,7 +37,7 @@ class ReportTest extends AbstractTest
 </root>
 EOD;
 
-        $result = new \stdClass();
+        $result = new stdClass();
         $result->DanePobierzPelnyRaportResult = $data;
         $client = $this->createClient($result);
         $result = $client->report('123456', 'ReportName');
@@ -54,18 +56,16 @@ EOD;
 </root>
 EOD;
 
-        $result = new \stdClass();
+        $result = new stdClass();
         $result->DaneSzukajResult = $data;
         $client = $this->createClient($result);
         $response = $client->search([]);
         $this->assertEmpty($response);
     }
 
-    /**
-     * @expectedException \WyszukiwarkaRegon\Exception\RegonException
-     */
     public function testReportFault()
     {
+        $this->expectException(RegonException::class);
         $sopaFault = new \SoapFault("test", "myMessage");
         $client = $this->createFault($sopaFault);
         $client->report('123456', 'ReportName');
@@ -79,7 +79,7 @@ EOD;
             ->willReturnCallback([$this, 'mockSearchErrorOk']);
 
         $client = new Client([
-            'client' => $mock
+            'client' => $mock,
         ]);
 
         try {
@@ -98,7 +98,7 @@ EOD;
             ->willReturnCallback([$this, 'mockSearchErrorEmpty']);
 
         $client = new Client([
-            'client' => $mock
+            'client' => $mock,
         ]);
 
         try {
@@ -112,11 +112,11 @@ EOD;
     /**
      * @param string $method
      * @param array $params
-     * @return \stdClass
+     * @return stdClass
      */
     public function mockSearchErrorOk($method, array $params)
     {
-        $return = new \stdClass();
+        $return = new stdClass();
 
         switch ($method) {
             case 'DaneSzukaj':
@@ -141,11 +141,11 @@ EOD;
     /**
      * @param string $method
      * @param array $params
-     * @return \stdClass
+     * @return stdClass
      */
     public function mockSearchErrorEmpty($method, array $params)
     {
-        $return = new \stdClass();
+        $return = new stdClass();
 
         switch ($method) {
             case 'DaneSzukaj':

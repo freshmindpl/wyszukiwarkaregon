@@ -2,6 +2,8 @@
 
 namespace WyszukiwarkaRegon;
 
+use SoapClient;
+
 /**
  * Class Client
  * @package WyszukiwarkaRegon
@@ -28,8 +30,8 @@ class Client
         $this->service = new Service();
 
         foreach ($config as $key => $value) {
-            if (method_exists($this, 'set' . ucfirst($key))) {
-                $this->{'set' . ucfirst($key)}($value);
+            if (method_exists($this, 'set'.ucfirst($key))) {
+                $this->{'set'.ucfirst($key)}($value);
             }
         }
     }
@@ -43,7 +45,7 @@ class Client
     {
         if (!is_callable([$this->service, $name])) {
             trigger_error(
-                "Call to undefined method " . __CLASS__ . "::$name()",
+                "Call to undefined method ".__CLASS__."::$name()",
                 E_USER_ERROR
             );
         }
@@ -90,10 +92,10 @@ class Client
     }
 
     /**
-     * @param \SoapClient $client
+     * @param SoapClient $client
      * @return $this
      */
-    public function setClient(\SoapClient $client)
+    public function setClient(SoapClient $client)
     {
         $this->service->setTransport($client);
 

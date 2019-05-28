@@ -2,6 +2,7 @@
 
 namespace WyszukiwarkaRegon;
 
+use SoapFault;
 use WyszukiwarkaRegon\Enum\GetValue;
 use WyszukiwarkaRegon\Exception\InvalidKeyException;
 use WyszukiwarkaRegon\Exception\RegonException;
@@ -12,7 +13,7 @@ class Service
     /**
      * @var string
      */
-    protected $wsdl = '/wsdl/UslugaBIRzewnPubl.xsd';
+    protected $wsdl = '/wsdl/UslugaBIRzewnPubl-ver11-prod.wsdl';
 
     /**
      * @var string
@@ -48,7 +49,7 @@ class Service
         Enum\GetValue::ERROR_MESSAGE,
         Enum\GetValue::SESSION_STATUS,
         Enum\GetValue::SERVICE_STATUS,
-        Enum\GetValue::SERVICE_MESSAGE
+        Enum\GetValue::SERVICE_MESSAGE,
     ];
 
     /**
@@ -63,15 +64,19 @@ class Service
     {
         $this->streamContext = stream_context_create();
 
-        $this->transport = new Transport(
-            dirname(__DIR__) . $this->wsdl,
-            array(
-                'soap_version' => SOAP_1_2,
-                'exception' => true,
-                'stream_context' => $this->streamContext,
-                'location' => $this->url
-            )
-        );
+        try {
+            $this->transport = new Transport(
+                dirname(__DIR__).$this->wsdl,
+                array(
+                    'soap_version' => SOAP_1_2,
+                    'exception' => true,
+                    'stream_context' => $this->streamContext,
+                    'location' => $this->url,
+                )
+            );
+        } catch (SoapFault $e) {
+            throw new RegonException($e->getMessage(), 0, $e);
+        }
     }
 
     /**
@@ -100,7 +105,7 @@ class Service
         $this->sid = $sid;
 
         // Set the HTTP headers.
-        stream_context_set_option($this->streamContext, array('http' => array('header' => 'sid: ' . $this->sid)));
+        stream_context_set_option($this->streamContext, array('http' => array('header' => 'sid: '.$this->sid)));
     }
 
     /**
@@ -118,12 +123,12 @@ class Service
     public function login()
     {
         $params = [
-            'pKluczUzytkownika' => $this->key
+            'pKluczUzytkownika' => $this->key,
         ];
 
         try {
             $response = $this->transport->__soapCall('Zaloguj', [$params]);
-        } catch (\SoapFault $e) {
+        } catch (SoapFault $e) {
             throw new RegonException($e->getMessage(), 0, $e);
         }
 
@@ -143,12 +148,12 @@ class Service
     public function logout()
     {
         $params = [
-            'pIdentyfikatorSesji' => $this->sid
+            'pIdentyfikatorSesji' => $this->sid,
         ];
 
         try {
             $response = $this->transport->__soapCall('Wyloguj', [$params]);
-        } catch (\SoapFault $e) {
+        } catch (SoapFault $e) {
             throw new RegonException($e->getMessage(), 0, $e);
         }
 
@@ -159,23 +164,24 @@ class Service
 
     /**
      * @param $key
+     * @return
      * @throws \Exception
      */
     public function getValue($key)
     {
         if (!in_array($key, $this->getValueDictionary)) {
             throw new RegonException(
-                'Unknown getValue key. Supported values are ' . implode(', ', $this->getValueDictionary)
+                'Unknown getValue key. Supported values are '.implode(', ', $this->getValueDictionary)
             );
         }
 
         $params = [
-            'pNazwaParametru' => $key
+            'pNazwaParametru' => $key,
         ];
 
         try {
             $response = $this->transport->__soapCall('GetValue', [$params]);
-        } catch (\SoapFault $e) {
+        } catch (SoapFault $e) {
             throw new RegonException($e->getMessage(), 0, $e);
         }
 
@@ -185,16 +191,17 @@ class Service
     /**
      * @param array $condition
      * @return mixed
+     * @throws \Exception
      */
     public function search(array $condition)
     {
         $params = [
-            'pParametryWyszukiwania' => $condition
+            'pParametryWyszukiwania' => $condition,
         ];
 
         try {
             $response = $this->transport->__soapCall('DaneSzukaj', [$params]);
-        } catch (\SoapFault $e) {
+        } catch (SoapFault $e) {
             throw new RegonException($e->getMessage(), 0, $e);
         }
 
@@ -216,17 +223,18 @@ class Service
      * @param string $regon
      * @param string $name
      * @return array|mixed
+     * @throws \Exception
      */
     public function report($regon, $name)
     {
         $params = [
             'pRegon' => $regon,
-            'pNazwaRaportu' => $name
+            'pNazwaRaportu' => $name,
         ];
 
         try {
             $response = $this->transport->__soapCall('DanePobierzPelnyRaport', [$params]);
-        } catch (\SoapFault $e) {
+        } catch (SoapFault $e) {
             throw new RegonException($e->getMessage(), 0, $e);
         }
 
@@ -265,30 +273,8 @@ class Service
             return [];
         }
 
-        $array = $this->xml2array($xml);
+        $array = json_decode(json_encode($xml), true);
 
         return array_values($array);
-    }
-
-    /**
-     * Xml to array
-     *
-     * @param $xml
-     * @return array
-     */
-    private function xml2array($xml)
-    {
-        $arr = array();
-        foreach ($xml as $element) {
-            /** @var \SimpleXmlElement $element */
-            $tag = $element->getName();
-            $e = get_object_vars($element);
-            $arr[$tag] = trim($element);
-            if (!empty($e)) {
-                $arr[$tag] = $element instanceof \SimpleXMLElement ? $this->xml2array($element) : $e;
-            }
-        }
-
-        return $arr;
     }
 }

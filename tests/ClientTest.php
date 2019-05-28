@@ -2,6 +2,8 @@
 
 namespace WyszukiwarkaRegon\Tests;
 
+use PHPUnit\Framework\Error\Error;
+
 class ClientTest extends AbstractTest
 {
     public function testClientConstructor()
@@ -30,11 +32,10 @@ class ClientTest extends AbstractTest
         $client = $client->sandbox();
         $this->assertSame(get_class($client), 'WyszukiwarkaRegon\\Client');
     }
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
+
     public function testClientCallBadMethod()
     {
+        $this->expectException(\PHPUnit\Framework\Error\Error::class);
         $client = $this->createClient(new \stdClass());
         /** @noinspection PhpUndefinedMethodInspection */
         $client->nonexistent();

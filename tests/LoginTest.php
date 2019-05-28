@@ -2,6 +2,9 @@
 
 namespace WyszukiwarkaRegon\Tests;
 
+use WyszukiwarkaRegon\Exception\InvalidKeyException;
+use WyszukiwarkaRegon\Exception\RegonException;
+
 class LoginTest extends AbstractTest
 {
     public function testLoginSuccess()
@@ -12,11 +15,9 @@ class LoginTest extends AbstractTest
         $this->assertSame('aaaabbbbccccdddd', $client->login());
     }
 
-    /**
-     * @expectedException \WyszukiwarkaRegon\Exception\RegonException
-     */
     public function testLoginException()
     {
+        $this->expectException(RegonException::class);
         $sopaFault = new \SoapFault("test", "myMessage");
         $client = $this->createFault($sopaFault);
         $client->login();
@@ -30,21 +31,17 @@ class LoginTest extends AbstractTest
         $this->assertTrue($client->logout());
     }
 
-    /**
-     * @expectedException \WyszukiwarkaRegon\Exception\RegonException
-     */
     public function testLogoutException()
     {
+        $this->expectException(RegonException::class);
         $sopaFault = new \SoapFault("test", "myMessage");
         $client = $this->createFault($sopaFault);
         $client->logout();
     }
 
-    /**
-     * @expectedException \WyszukiwarkaRegon\Exception\InvalidKeyException
-     */
     public function testLoginInvalidKeyException()
     {
+        $this->expectException(InvalidKeyException::class);
         $result = new \stdClass();
         $result->ZalogujResult = '';
         $client = $this->createClient($result);

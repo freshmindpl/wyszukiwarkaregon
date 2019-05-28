@@ -2,26 +2,31 @@
 
 namespace WyszukiwarkaRegon\Tests;
 
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use stdClass;
 use WyszukiwarkaRegon\Client;
 
-abstract class AbstractTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractTest extends TestCase
 {
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject
+     * @throws \ReflectionException
      */
     protected function getClient()
     {
-        $client = $this->getMockFromWsdl('wsdl/UslugaBIRzewnPubl.xsd', 'UslugaBIRzewnPubl');
+        $client = $this->getMockFromWsdl('wsdl/UslugaBIRzewnPubl-ver11-prod.wsdl', 'UslugaBIRzewnPubl');
 
         return $client;
     }
 
     /**
-     * @param \stdClass $response
+     * @param stdClass $response
      * @return Client
+     * @throws \ReflectionException
      */
-    protected function createClient(\stdClass $response)
+    protected function createClient(stdClass $response)
     {
         $client = $this->getClient();
 
@@ -30,13 +35,14 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($response));
 
         return new Client([
-            'client' => $client
+            'client' => $client,
         ]);
     }
 
     /**
      * @param \SoapFault $fault
      * @return Client
+     * @throws \ReflectionException
      */
     protected function createFault(\SoapFault $fault)
     {
@@ -47,7 +53,7 @@ abstract class AbstractTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException($fault));
 
         return new Client([
-            'client' => $client
+            'client' => $client,
         ]);
     }
 }

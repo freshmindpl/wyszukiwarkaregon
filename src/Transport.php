@@ -2,7 +2,10 @@
 
 namespace WyszukiwarkaRegon;
 
-class Transport extends \SoapClient
+use SoapClient;
+use SoapHeader;
+
+class Transport extends SoapClient
 {
     public $location;
 
@@ -13,8 +16,8 @@ class Transport extends \SoapClient
         $input_headers = null,
         &$output_headers = null
     ) {
-        $header[] = new \SoapHeader('http://www.w3.org/2005/08/addressing', 'To', $this->location, 0);
-        $header[] = new \SoapHeader(
+        $header[] = new SoapHeader('http://www.w3.org/2005/08/addressing', 'To', $this->location, 0);
+        $header[] = new SoapHeader(
             'http://www.w3.org/2005/08/addressing',
             'Action',
             $this->getAction($function_name),

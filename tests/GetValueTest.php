@@ -24,15 +24,13 @@ class GetValueTest extends AbstractTest
         try {
             $client->getValue('wrong value');
         } catch (RegonException $e) {
-            $this->assertContains('Unknown getValue key', $e->getMessage());
+            $this->assertStringContainsString('Unknown getValue key', $e->getMessage());
         }
     }
 
-    /**
-     * @expectedException \WyszukiwarkaRegon\Exception\RegonException
-     */
     public function testLoginException()
     {
+        $this->expectException(RegonException::class);
         $sopaFault = new \SoapFault("test", "myMessage");
         $client = $this->createFault($sopaFault);
         $client->getValue(GetValue::ERROR_CODE);

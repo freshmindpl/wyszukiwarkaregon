@@ -4,6 +4,7 @@ namespace WyszukiwarkaRegon\Tests;
 
 use WyszukiwarkaRegon\Client;
 use WyszukiwarkaRegon\Enum\GetValue;
+use WyszukiwarkaRegon\Exception\RegonException;
 use WyszukiwarkaRegon\Exception\SearchException;
 
 class SearchTest extends AbstractTest
@@ -61,11 +62,9 @@ EOD;
         $this->assertEmpty($response);
     }
 
-    /**
-     * @expectedException \WyszukiwarkaRegon\Exception\RegonException
-     */
     public function testSearchFault()
     {
+        $this->expectException(RegonException::class);
         $sopaFault = new \SoapFault("test", "myMessage");
         $client = $this->createFault($sopaFault);
         $client->search([]);

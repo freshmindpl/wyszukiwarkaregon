@@ -2,6 +2,8 @@
 
 namespace WyszukiwarkaRegon\Exception;
 
+use Exception;
+
 class RegonException extends \RuntimeException
 {
     /**
@@ -12,7 +14,7 @@ class RegonException extends \RuntimeException
     public function __construct(
         $message,
         $code = 0,
-        \Exception $previous = null
+        Exception $previous = null
     ) {
         parent::__construct($message, $code, $previous);
     }
