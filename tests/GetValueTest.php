@@ -24,7 +24,7 @@ class GetValueTest extends AbstractTest
         try {
             $client->getValue('wrong value');
         } catch (RegonException $e) {
-            $this->assertStringContainsString('Unknown getValue key', $e->getMessage());
+            $this->assertContains('Unknown getValue key', $e->getMessage());
         }
     }
 
